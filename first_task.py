@@ -39,8 +39,6 @@ class Queue:
         print(self.list[rnd])
         return self.list.insert(rnd + 1, person)
 
-    def show(self):
-        print(self.list)
 
 queue = Queue()
 
@@ -55,4 +53,4 @@ queue.add_item(second_pers)
 queue.add_item(third_pers)
 queue.add_item(four_pers)
 queue.random_list(five_pers)
-queue.show()
+print(queue.list)
