@@ -1,5 +1,6 @@
 import requests
 import os
+import json
 
 
 directory_user_data = 'user_data'
@@ -7,20 +8,26 @@ directory_users = 'user_'
 same_directory = 'user_data/user_'
 
 
-
 os.mkdir(directory_user_data)
-for i in range(1, 7):
+
+for i in range(7, 13):
     os.mkdir(same_directory + str(i))
-    user = requests.get('https://reqres.in/api/users', params={'id': str(i)})
-    user = str(user.text)
-    with open("user_" + str(i), 'w+') as file:
-        file.write(user)
+    
+    user = json.loads(requests.get('https://reqres.in/api/users', params={'id': str(i)}).text)
+    user_email = user['data']['email']
+    user_first_name = user['data']['first_name']
+    user_last_name = user['data']['last_name']
 
 
-
-os.replace('user_1', 'user_data/user_1/user_1')
-os.replace('user_2', 'user_data/user_2/user_2')
-os.replace('user_3', 'user_data/user_3/user_3')
-os.replace('user_4', 'user_data/user_4/user_4')
-os.replace('user_5', 'user_data/user_5/user_5')
-os.replace('user_6', 'user_data/user_6/user_6')
+    with open(f'user_{str(i)}.txt', 'w+') as file:
+        file.write(user_email)
+        file.write(user_first_name)
+        file.write(user_last_name)
+        
+    os.replace(f'user_{str(i)}.txt', f'user_data/user_{str(i)}/user_{str(i)}.txt')
+    
+    user_photo = requests.get(f'https://reqres.in/img/faces/{str(i)}-image.jpg')
+    with open(f"file_{str(i)}.jpg", 'wb') as file:
+        file.write(user_photo.content)
+        
+    os.replace(f'file_{str(i)}.jpg', f'user_data/user_{str(i)}/file_{str(i)}.jpg')
