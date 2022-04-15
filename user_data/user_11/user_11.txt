@@ -1,0 +1,3 @@
+Email: george.edwards@reqres.in
+Имя: George
+Фамилия: Edwards
